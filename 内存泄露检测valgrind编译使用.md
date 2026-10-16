@@ -200,3 +200,14 @@ Total 2 devices attached
 Total 1 devices attached
 
 
+
+
+问题验证排查分析：
+第一步码流是否缺失：
+ffmpeg -i rtsp://admin:Hhkj1994@172.16.211.247:554/Streaming/Channels/101 -c copy -bsf:v h264_mp4toannexb raw.h264
+
+
+ffprobe -v error -print_format json -show_frames raw.h264 > frame_info.json # 查看是否存在无SPS/PPS、帧间隔跳变、corrupt nal 
+grep -i "corrupt\|error" frame_info.json
+
+
